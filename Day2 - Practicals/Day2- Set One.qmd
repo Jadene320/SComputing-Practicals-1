@@ -78,24 +78,79 @@ print(var(y3))
 
 #### Question 1 
 
+Solve this problem using matrices.
+
 ```{r}
-#weird riddle 
 #x = number on tree1
 #y = number on tree 2
-tree_1 <- x +1
-tree_2 <- y-1
+#1: y-1 = x+1
+#2: y+1 = 2(x-1)
+
+A <- rbind(c(1, -1),
+                c(-2,1))
+b <- c(-2, -3)
+solve(A,b)
 ```
+
+The number of birds on Tree 1 is 5. The number on Tree 2 is 7.
 
 ## Exercise Three
 
 ```{r}
 #one door with a car, two with goats
-door1 <-
-door2 <- 
-door3 <- 
+set.seed(1)
+doors <- c(1,2,3) 
+win_counter = 0 
+
+#Simulate the game 10000 times (This is a situation where you don't switch doors at all)
+for(i in 1:10000){
+  prize_in_door = sample(doors, size =1) #Randomly choose the door that has the prize
+  my_choice =2 #This can be 1 2 or 3 
+  if(my_choice == prize_in_door)
+  {
+    win_counter = win_counter+1
+  }
+}
+
+print(win_counter/10000)
 ```
 
-##  Exercise 4
+```{r}
+door_to_reveal <- function(doors, prize_in_door, my_choice){
+  if (prize_in_door == my_choice){ #if my choice is the prize door 
+    reveal = sample(doors[-my_choice], size =1) #then, the only door that can be revealed is one that doesn't have the prize
+  }
+  else { #but if I chose a door that doesnt have the prize then only one other door can be revealed. 
+    reveal = doors[-c(my_choice, prize_in_door)]
+  }
+  
+}
+```
+
+Now, we need to calculate what the probability is if you switched every time you played.
+
+```{r}
+set.seed(1)
+win_counter = 0
+
+for (i in 1:10000){
+  prize_in_door = sample(doors,1)
+  my_choice = 1
+  reveal = door_to_reveal(doors, prize_in_door, my_choice)
+  #Now change the door
+  new_choice = doors[-c(my_choice, reveal)] #Let the new choice be anything that isnt the door that we already picked and not the one already revealed.
+  if(prize_in_door == new_choice)
+  {
+    win_counter = win_counter + 1
+  }
+}
+
+print(win_counter/10000)
+```
+
+The increased prob. shows that it is in the contestants favor to switch doors.
+
+## Exercise 4
 
 ```{r}
 #perform a weighted linear reg
@@ -103,11 +158,14 @@ set.seed(1)
 x <- seq(1,100)
 e <- rnorm(100, 0, 0.2^2)
 y <- sin(x/10) + e 
+n <- length(x)
 
 #Creating the custom Loess function for smoothing and plot
 #f is span
-customLowess <- function(x, y, f){
+customLowess <- function(x, y, f=0.5){ 
   
+  fit <- loess(x, y, f= span, iter = iter)
+  return(fit)
 }
 
 #Compare the function that you created with that of R build in LOESS
