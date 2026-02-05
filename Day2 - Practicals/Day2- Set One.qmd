@@ -7,7 +7,7 @@ editor: visual
 
 # Additional Exercises: Set One
 
-## Exercise One 
+## Exercise One
 
 #### Question One
 
@@ -18,7 +18,7 @@ sum_log <- log(i +1)
 average <- mean(sum_log)
 ```
 
-#### Question 2 
+#### Question 2
 
 ```{r}
 set.seed(20190128)
@@ -76,7 +76,7 @@ print(var(y3))
 
 ## Exercise Two
 
-#### Question 1 
+#### Question 1
 
 Solve this problem using matrices.
 
