@@ -11,7 +11,20 @@ editor: visual
 
 ```{r}
 head(airquality)
-air_data <- na.omit(airquality) #Remove NA valies from airquality data set and save an df
+df <- airquality
+na_row <- c()
+
+for (i in 1:nrow(df)){
+  for (col in 1:ncol(df)){
+    if(is.na(df[i, col])){
+      na_row <- c(na_row, i)
+      break
+    }
+  }
+}
+
+print(na_row)
+air_data <- na.omit(airquality) #Remove NA values from airquality data set and save an df
 
 sum(!complete.cases(airquality))
 
@@ -35,7 +48,7 @@ sd(air_data$Temp)
 
 ```
 
-#### Question 3 
+#### Question 3
 
 ```{r}
 head(cars)
