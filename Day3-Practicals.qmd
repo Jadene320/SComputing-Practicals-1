@@ -1,0 +1,95 @@
+---
+title: "Untitled"
+format: html
+editor: visual
+---
+
+#### Question 1
+
+```{r}
+##Question One: SSE
+
+stackloss
+y<- stackloss$stack.loss
+x <- stackloss$Air.Flow
+
+SSE <- function(p,x,y){ #p is a parameter vector that stores all of the B values
+  beta0 <- p[1]
+  beta1 <- p[2]
+  
+  pred <- beta0 + beta1*x #this is y in the sse equation
+  ss <- sum((y - pred)^2)
+  return (ss)
+  
+}
+
+lm(stack.loss ~ Air.Flow, data = stackloss)
+SSE(c(-44,1), x=x, y=y) #The -44 and 1 is the B values provided by p
+
+```
+
+#### Question 2
+
+```{r}
+##Generate values from a a pmf
+
+set.seed(1)
+y <- runif(1000) #Generate 1000 random vals from a uniform dist
+
+assign_uni <- ifelse(y > 0.2, "a", 
+                     ifelse(y < 0.5, "b",
+                            ifelse(y < 1, "c",)))
+
+table(assign_uni)
+```
+
+#### Question 3
+
+Likelihood Question
+
+```{r}
+data_sim <- rpois(1000, 0.2) #generate 1000 numbers from rpois, simulation function
+pois_val2 <- dpois(data_sim, 0.2) #returns the probabilities 
+
+#Calculate the Likelihood - by taking product of all pois2_val
+poi_likelihood <- function(lambda, data){
+  likelihood_calc <- prod(data)
+  #prod(dpois(pois_val2, lambda=lambda))
+  
+}
+
+print(poi_likelihood(lambda = 2, data = pois_val2)) #Ask is this correct
+```
+
+#### Question 4
+
+Plot a sin function in \[-2; 2\]
+
+```{r}
+x <- seq(-2,2)
+y <- sin(x)
+
+plot(y~x)
+lines(x,y)
+```
+
+#### Question 5 
+
+t-distribution simulation
+
+```{r}
+#Generate 1000 random values from a tdist
+t_dist <- rt(1000,1)
+sorted_tdist <- sort(t_dist)
+
+norm_dist <- rnorm(1000)
+#Calculate quantiles for normal distribution, plot against tdistribution
+#How to find quantiles 
+
+```
+
+```{r}
+#Test this way
+library(car)
+qqplot(x, envelope = 0.95, ylim = c(-5,5))
+```
