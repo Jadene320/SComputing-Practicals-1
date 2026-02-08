@@ -49,9 +49,9 @@ class(flight1)
 
 #### Question Three
 
-NA value: The was only one distance value (n=1) for month == 1 for that particular carrier.
+NA value: There exists only one distance value (n=1) for month == 1 for that particular carrier.
 
-The mathematical context in which sd = 0, is when the sum of the differences of obs and mean is = 0. So the distance of flights is the same.
+The mathematical context in which sd = 0, is when the sum of the differences of obs and mean is = 0. So the distance of flights are the same.
 
 ```{r}
 check <- flights |> 
@@ -90,8 +90,6 @@ Proportion of flights dep_delay\>0 but arr_delay\<=0
 
 ```{r}
 delay_check <- flights |> 
-  #filter(dep_delay > 0, arr_delay <= 0) |> 
-  #mutate(prop_init = num_dep_delay/num_arr_delay) |> 
   summarise(
     numerator = sum(dep_delay> 0 & arr_delay <= 0, na.rm = TRUE),
     denominator = n(), #No need to specify 'flight' here, it looks at the df passed and counts the rows it sees
@@ -122,7 +120,8 @@ routes <- flights |>
   ) |> 
   filter(unique_carrier > 1)
 
-#Identify airlines for the routes. HOW?*********
+routes
+
 
 ```
 
@@ -143,6 +142,8 @@ avg_arr_delays <- flights |>
   summarise(
     avg_arr_delay = mean(arr_delay, na.rm = TRUE)
   )
+
+avg_arr_delays
 ```
 
 #### Question Six : 3
@@ -182,12 +183,33 @@ diff <- rank |>
 diff
 ```
 
-JFK to ATL is the route with the greatest diff
+JFK to ATL is the route with the greatest difference between best and worst airlines.
 
 #### Question Six : 5
 
+Check what other variables could be the cause for that great delay.
+
 ```{r}
-#HUH
+head(flights)
+#count the number of flights for each carrier on the route with the greatest difference (JFK to ATL)
+flights |> 
+  filter(origin == diff$origin, 
+         dest == diff$dest) |> 
+  count(carrier)
+```
+
+```{r}
+flights %>%
+  filter(origin == diff$origin,
+         dest == diff$dest,
+         !is.na(arr_delay)) %>%
+  group_by(carrier) %>%
+  summarise(
+    mean_delay = mean(arr_delay),
+    median_delay = median(arr_delay),
+    sd_delay = sd(arr_delay)
+  )
+
 ```
 
 #### Question Seven
