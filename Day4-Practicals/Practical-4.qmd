@@ -1,5 +1,5 @@
 ---
-title: "Practical Four"
+title: "PracticalFour"
 format: html
 editor: visual
 ---
@@ -61,9 +61,8 @@ check <- flights |>
     num_flights = n(),
     carrier_dist_vec_mean = mean(distance, na.rm = TRUE),
     carrier_dist_vec_sd = sd(distance, na.rm = TRUE)
-    ) %>% 
+    ) 
   
-
 check
 
 check |> 
