@@ -14,3 +14,12 @@ website:
         href: "Day3_Practicals/Practical3_Submission.qmd"
       - text: "Practical 4"
         href: "Day4_Practicals/Practical_4.qmd"
+
+project:
+  type: website
+  output-dir: docs
+  render:
+    - index.qmd
+    - "Day1_Practicals/Day1.qmd"
+    - "Day3_Practicals/Practical3_Submission.qmd"
+    - "Day4_Practicals/Practical_4.qmd"
