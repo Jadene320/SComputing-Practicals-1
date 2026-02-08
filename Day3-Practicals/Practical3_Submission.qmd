@@ -1,0 +1,55 @@
+---
+title: "Practical3_Submission"
+format: html
+---
+
+Question 4
+Plot a sin function in [-2; 2]
+```{r}
+x <- seq(-2,2, length.out = 100)
+y <- sin(x)
+
+plot(x, y, type = "l", col = "pink")
+```
+
+Question 5
+t-distribution simulation
+```{r}
+#Generate 1000 random values from a tdist and a norm
+t_dist <- rt(1000,1)
+#norm_dist <- rnorm(1000)
+
+prob_seq <- seq(0, 1, 0.01)
+
+tdist_quant <- quantile(t_dist, probs = prob_seq) 
+#norm_dist_quants <- quantile(norm_dist, probs = prob_seq)
+
+#Use Bootstrapping to simulate 1000 norms
+B <- 1000
+norm_quants <- replicate(B, {
+  norm_dist <- rnorm(1000)
+  quantile(norm_dist, probs = prob_seq)
+})
+
+
+upper <- apply(norm_quants,1, quantile, probs = 0.025)
+lower <- apply(norm_quants,1, quantile, probs = 0.975)
+norm_med <- apply(norm_quants,1,quantile, probs = 0.50)
+
+#Calculate quantiles for normal distribution, plot against tdistribution
+#How to find quantiles 
+plot(norm_med, tdist_quant, main = "QQ-plot",
+     xlab = "Normal Quantiles", ylab = "Sample Quantiles",
+     ylim = c(-10, 10), pch = 20)
+
+lines(norm_med, lower, col = "blue", lty = 2)
+lines(norm_med, upper, col = "blue", lty = 2)
+abline(0,1,col= "pink", lwd=2)
+```
+
+```{r}
+#Test this way
+library(car)
+qqPlot(tdist_quant, envelope = 0.95, ylim = c(-5,5))
+```
+
