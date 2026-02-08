@@ -1,6 +1,5 @@
 ---
 title: "Practical One"
-author: "Jadene"
 format: html
 editor: visual
 ---
