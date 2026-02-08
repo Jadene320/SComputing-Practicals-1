@@ -1,0 +1,5 @@
+---
+title: "Assignment 1"
+---
+
+Use the navigation bar above to view my solutions for each practical question.
