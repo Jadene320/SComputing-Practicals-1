@@ -1,0 +1,41 @@
+---
+title: "Must Know Concepts"
+format: html
+editor: visual
+---
+
+## Concepts you need to know
+
+-   Statistical computing really refers to using computers for Statistical Inference. Some concepts you will typically encounter are:
+
+    -   least squares
+
+    -   error sum of squares
+
+    -   likelihood
+
+    -   the principle of hypothesis testing
+
+    -   bias, variance, standard error
+
+    -   sampling distribution
+
+    -   different ways to estimate parameters
+
+    -   statistical models (how to fit, interpret, predict)
+
+    -   confidence intervals vs prediction intervals
+
+    -   coverage of confidence intervals
+
+    -   power
+
+    -   principles of the Bayesian approach for statistical modelling (e.g., what is a posterior distribution)
+
+    -   model comparison 
+
+    -   model validation 
+
+```{r}
+1 + 1
+```
