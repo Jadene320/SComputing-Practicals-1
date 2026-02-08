@@ -9,8 +9,8 @@ website:
       - text: "Home"
         href: index.qmd
       - text: "Practical 1"
-        href: "Day1-Practicals/Practical One.qmd"
-      - text: "Practical 3 (Q4-5)"
-        href: "Day3-Practicals/Practical3_Submission.qmd"
+        href: "Day1_Practicals/Practical_1.qmd"
+      - text: "Practical 3 (Q4-Q5)"
+        href: "Day3_Practicals/Practical3_Submission.qmd"
       - text: "Practical 4"
-        href: "Day4-Practicals/Practical-4.qmd"
+        href: "Day4_Practicals/Practical_4.qmd"
