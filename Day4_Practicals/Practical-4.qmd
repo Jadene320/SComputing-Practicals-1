@@ -69,7 +69,7 @@ check |>
   filter(num_flights > 1, carrier_dist_vec_sd == 0)
 ```
 
-#### Question Four 
+#### Question Four
 
 ```{r}
 new_df <- flights |> 
@@ -190,7 +190,7 @@ JFK to ATL is the route with the greatest diff
 #HUH
 ```
 
-#### Question Seven 
+#### Question Seven
 
 ```{r}
 given_data <- structure(list(id = c("id_1", "id_2", "id_3", "id_4", "id_5", 
