@@ -1,0 +1,16 @@
+project:
+  type: website
+  output-dir: docs  
+
+website:
+  title: "Assignment 1"
+  navbar:
+    left:
+      - text: "Home"
+        href: index.qmd
+      - text: "Practical 1"
+        href: "Day1-Practicals/Practical One.qmd"
+      - text: "Practical 3 (Q4-5)"
+        href: "Day3-Practicals/Practical3_Submission.qmd"
+      - text: "Practical 4"
+        href: "Day4-Practicals/Practical-4.qmd"
