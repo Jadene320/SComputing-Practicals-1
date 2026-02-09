@@ -3,3 +3,131 @@ title: "Practical_5"
 format: html
 ---
 
+```{r}
+library(tidyverse)
+library(ggplot2)
+```
+
+```{r}
+pkg_vec <- c("dplyr", "palmerpenguins", "knitr")
+for (x in pkg_vec) {
+  if (!requireNamespace(x, quietly = TRUE)) {
+    install.packages(x, dependencies = TRUE)
+  }
+  # if you want to programmatically attach
+  # libraries, this is the way to to do it
+  library(x, character.only = TRUE)
+}
+```
+
+#### Question 1
+
+```{r}
+#Simulate data from normal distribution
+sim_data <- data.frame(norm_dist = rnorm(100, 3, 1)) #Note, this is the emperical data
+
+#Plot the density, which can be achieved by using the "geom_density()"
+ggplot(data = sim_data, mapping = aes(x = norm_dist))+ #the aesthetics you soecify in mapping, will apply to whole plot
+  geom_density(color = "red") + #the aesthetics specified in geom_ will just be appled to that geometric thing
+  labs(
+    title = "Normal Distribution Simulation",
+    x = "Normal Simulated values",
+    y = "Density"
+    
+  )
+  
+```
+
+```{r}
+#2
+```
+
+```{r}
+std_normal <- data.frame(st_norm = rnorm(100))
+
+ggplot(data = sim_data, mapping = aes(x = norm_dist))+ #the aesthetics you specify in mapping, will apply to whole plot
+  geom_density(color = "red", lwd = 1) + #the aesthetics specified in geom_ will just be appled to that geometric thing
+  #geom_line(aes(y= st_norm, color = "blue" )) +
+  stat_function(fun = dnorm, args = list(mean= 3, sd =1), color = "green", lwd = 1) + #the stat_function plots the known curve, at each point on your emperical, what is the actual true value 
+  labs(
+    title = "Overlay of the true density",
+    x = "Normal Distribution",
+    y = "Density"
+  
+  )
+
+```
+
+If you simulated from the normal distribution several times, the red line would start to resemble the green line.
+
+#### Question Two
+
+```{r}
+library(palmerpenguins)
+library(ggthemes)
+```
+
+```{r}
+penguins 
+```
+
+2x2 frequency table of species of penguins and island location
+
+```{r}
+freq_table <- penguins |> 
+  count(species, island) |> 
+  pivot_wider(
+    names_from = species,
+    values_from = n,
+    values_fill = 0 
+  )
+ 
+
+print(freq_table)
+
+#How to add "island" and "species" to
+kable(freq_table,
+      caption = "Contingency table for count of penguins per species per island")
+```
+
+#### Question Three
+
+Plot the distribution of the flipper length of penguins, separated by species.
+
+```{r}
+ggplot(data = penguins, 
+       mapping = aes(x=species, y = flipper_length_mm, color = species)
+       ) +
+  geom_boxplot() + 
+  labs( 
+    title = " ",
+    x = "Species",
+    y = "Flipper Length (mm)"
+    )
+
+```
+
+```{r}
+ggplot(data = penguins, 
+       mapping = aes(x=flipper_length_mm, color = species)
+       ) +
+  geom_density(aes(fill = species), alpha = 0.4) + 
+  labs( 
+    title = " ",
+    x = "Flipper Length (mm)",
+    y = "Density"
+    )
+
+  
+```
+
+```{r}
+ggplot(data = penguins, aes(x=flipper_length_mm)) +
+  geom_density(aes(color = species)) +
+  facet_grid(~ species) +
+  labs(
+    title = "Facet grid of Flipper Length (mm) per species",
+    x = "Flipper Length (mm)",
+    y = "Density"
+  )
+```

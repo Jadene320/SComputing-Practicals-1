@@ -32,19 +32,18 @@ norm_quants <- replicate(B, {
 })
 
 
-upper <- apply(norm_quants,1, quantile, probs = 0.025) #apply to quantile over all the rows and return the 2.5th percentile
+upper <- apply(norm_quants,1, quantile, probs = 0.025) #apply quantile over all the rows of norm quants and return the 2.5th percentile
 lower <- apply(norm_quants,1, quantile, probs = 0.975)
-norm_med <- apply(norm_quants,1,quantile, probs = 0.50) #get the med aswell
+norm_med <- apply(norm_quants,1,quantile, probs = 0.50) #get the median aswell
 
-#Calculate quantiles for normal distribution, plot against tdistribution
-#How to find quantiles 
+#Calculate quantiles for normal distr, plot against tdistr
 plot(norm_med, tdist_quant, main = "QQ-plot",
      xlab = "Normal Quantiles", ylab = "Sample Quantiles",
      ylim = c(-5, 5), pch = 1)
 
 lines(norm_med, lower, col = "blue", lty = 2)
 lines(norm_med, upper, col = "blue", lty = 2)
-abline(0,1,col= "pink", lwd=2)
+abline(0,1,col= "red", lwd=2)
 ```
 
 ```{r}
