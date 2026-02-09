@@ -230,7 +230,7 @@ Coefficients:
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>tdist_quant <span class="ot">&lt;-</span> <span class="fu">quantile</span>(t_dist, <span class="at">probs =</span> prob_seq) </span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co">#norm_dist_quants &lt;- quantile(norm_dist, probs = prob_seq)</span></span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Use Bootstrapping to simulate 1000 norms</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Use Bootstrapping to simulate 1000 norms dist with 1000 values in each </span></span>
 <span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
 <span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>norm_quants <span class="ot">&lt;-</span> <span class="fu">replicate</span>(B, {</span>
 <span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  norm_dist <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>)</span>
@@ -238,15 +238,15 @@ Coefficients:
 <span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>upper <span class="ot">&lt;-</span> <span class="fu">apply</span>(norm_quants,<span class="dv">1</span>, quantile, <span class="at">probs =</span> <span class="fl">0.025</span>)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>upper <span class="ot">&lt;-</span> <span class="fu">apply</span>(norm_quants,<span class="dv">1</span>, quantile, <span class="at">probs =</span> <span class="fl">0.025</span>) <span class="co">#apply to quantile over all the rows and return the 2.5th percentile</span></span>
 <span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>lower <span class="ot">&lt;-</span> <span class="fu">apply</span>(norm_quants,<span class="dv">1</span>, quantile, <span class="at">probs =</span> <span class="fl">0.975</span>)</span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>norm_med <span class="ot">&lt;-</span> <span class="fu">apply</span>(norm_quants,<span class="dv">1</span>,quantile, <span class="at">probs =</span> <span class="fl">0.50</span>)</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>norm_med <span class="ot">&lt;-</span> <span class="fu">apply</span>(norm_quants,<span class="dv">1</span>,quantile, <span class="at">probs =</span> <span class="fl">0.50</span>) <span class="co">#get the med aswell</span></span>
 <span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculate quantiles for normal distribution, plot against tdistribution</span></span>
 <span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="co">#How to find quantiles </span></span>
 <span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(norm_med, tdist_quant, <span class="at">main =</span> <span class="st">"QQ-plot"</span>,</span>
 <span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Normal Quantiles"</span>, <span class="at">ylab =</span> <span class="st">"Sample Quantiles"</span>,</span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>), <span class="at">pch =</span> <span class="dv">20</span>)</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>), <span class="at">pch =</span> <span class="dv">1</span>)</span>
 <span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(norm_med, lower, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
 <span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(norm_med, upper, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
