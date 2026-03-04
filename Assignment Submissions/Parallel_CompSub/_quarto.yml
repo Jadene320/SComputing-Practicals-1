@@ -4,10 +4,6 @@ project:
 
 website:
   title: "Parallel Computing Assignment"
-  navbar:
-    left:
-      - text: "Home"
-        file: ParallelComputing/ParallelComp_Sub.qmd
 
 format:
   html:
