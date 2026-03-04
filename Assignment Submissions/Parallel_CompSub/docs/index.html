@@ -175,12 +175,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(exp_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              mean  variance
-result.1 0.7891725 0.4586553
-result.2 0.8441740 0.3858174
-result.3 0.8631066 0.7162100
-result.4 0.8280420 0.6926035
-result.5 1.1303642 1.1903948
-result.6 1.3186539 1.0801675</code></pre>
+result.1 0.9794844 1.1105528
+result.2 1.0903295 0.8625379
+result.3 1.2046522 0.5626779
+result.4 1.1467027 1.0018669
+result.5 0.6618428 0.5019468
+result.6 1.1477021 2.0646141</code></pre>
 </div>
 </div>
 </section>
@@ -206,7 +206,7 @@ result.6 1.3186539 1.0801675</code></pre>
 <span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>par_time <span class="ot">&lt;-</span> end<span class="sc">-</span>start</span>
 <span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Parallel Comp Time:"</span>, par_time)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Parallel Comp Time: 6.195888</code></pre>
+<pre><code>Parallel Comp Time: 4.874279</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#head(bstr)</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -223,7 +223,7 @@ result.6 1.3186539 1.0801675</code></pre>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>non_partime <span class="ot">&lt;-</span> end <span class="sc">-</span> start</span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Non Parallel Computing time:"</span>, non_partime)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Non Parallel Computing time: 4.473872</code></pre>
+<pre><code>Non Parallel Computing time: 3.37686</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -238,7 +238,7 @@ result.6 1.3186539 1.0801675</code></pre>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-   3.27    0.07    3.36 </code></pre>
+   4.83    0.20    5.96 </code></pre>
 </div>
 </div>
 </section>
@@ -273,7 +273,7 @@ result.6 1.3186539 1.0801675</code></pre>
 <span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>cov_rate <span class="ot">&lt;-</span> (count<span class="sc">/</span>num_sims)<span class="sc">*</span><span class="dv">100</span></span>
 <span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Coverage of percentile bootstrap CI:"</span>, cov_rate,<span class="st">"%"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Coverage of percentile bootstrap CI: 91.7 %</code></pre>
+<pre><code>Coverage of percentile bootstrap CI: 91.2 %</code></pre>
 </div>
 </div>
 </section>
@@ -329,7 +329,7 @@ result.6 1.3186539 1.0801675</code></pre>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>for_time <span class="ot">&lt;-</span> end1 <span class="sc">-</span> start1</span>
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Runtime using foreach:"</span>, for_time)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Runtime using foreach: 0.01023102</code></pre>
+<pre><code>Runtime using foreach: 0.004849911</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#RunTime parLapply</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(<span class="dv">3</span>)</span>
@@ -342,7 +342,7 @@ result.6 1.3186539 1.0801675</code></pre>
 <span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>par_time <span class="ot">&lt;-</span> end2 <span class="sc">-</span> start2</span>
 <span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Runtime using parLapply:"</span>, par_time)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Runtime using parLapply: 0.06817198</code></pre>
+<pre><code>Runtime using parLapply: 0.04295301</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#RunTime replicate</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>start3 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
@@ -354,19 +354,19 @@ result.6 1.3186539 1.0801675</code></pre>
 <span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>rep_time <span class="ot">&lt;-</span> end3 <span class="sc">-</span> start3</span>
 <span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Runtime using replicate:"</span>, rep_time)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Runtime using replicate: 0.01743388</code></pre>
+<pre><code>Runtime using replicate: 0.01056194</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Runtime using foreach:"</span>, for_time)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Runtime using foreach: 0.01023102</code></pre>
+<pre><code>Runtime using foreach: 0.004849911</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Runtime using parLapply:"</span>, par_time)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Runtime using parLapply: 0.06817198</code></pre>
+<pre><code>Runtime using parLapply: 0.04295301</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Runtime using replicate:"</span>, rep_time)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Runtime using replicate: 0.01743388</code></pre>
+<pre><code>Runtime using replicate: 0.01056194</code></pre>
 </div>
 </div>
 
