@@ -1,0 +1,15 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Parallen Computing Assignment"
+  navbar:
+    left:
+      - text: "Home"
+        file: index.qmd
+
+format:
+  html:
+    theme: cosmo
+    toc: true
