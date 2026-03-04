@@ -1,32 +1,8 @@
 ---
-title: "ParallelComputing"
+title: "ParallelComp_Sub"
+author: "Jadene Jaftha"
 format: html
 ---
-
-### Parallel Computing
-Splitting a task into smaller pieces, and perform simultaneously, improving task efficiency.
-
-- reduced exectution time
-- large datasets
-- many tasks at one time
-
-makeCluster = make another worker
-
-Task Parallelism : different tasks simultaneously
-Data Parrallism : same task on different subsets
-Parallel Tasks : Indep tasks with no communication: Bootstrapping and Monte Carlo
-
-#### Packages 
-parallel
-foreach 
-doParallel
-
-
-```{r, warning = FALSE}
-#install.packages("parallel")
-#install.packages("foreach")
-#install.packages("doParallel")
-```
 
 ```{r, warning = FALSE}
 library(parallel)
@@ -45,7 +21,6 @@ exp_data <- foreach(i = 1:100, .combine = "rbind") %do% {
 
 head(exp_data)
 ```
-
 ### Question 2 
 ```{r, warnings = FALSE}
 library(MASS)
@@ -71,6 +46,7 @@ cat("Parallel Comp Time:", par_time)
 stopCluster(cl)
 
 ```
+
 
 ```{r}
 B <- 10000
@@ -161,7 +137,6 @@ results_seq <- foreach(i = irnorm(n= 5, mean =0, sd =1, count =3)) %do% {
 print(results_seq)
 ```
 
-
 ### Question 5
 ```{r}
 #RunTime foreach 
@@ -199,4 +174,3 @@ cat("Runtime using parLapply:", par_time)
 cat("Runtime using replicate:", rep_time)
 
 ```
-
