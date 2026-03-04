@@ -1,0 +1,40 @@
+---
+title: "Optimisation_Algorithms"
+format: html
+---
+
+### Likelihood
+
+```{r}
+poi_likelihood <- function(lambda, x){ 
+ n <- length(x)
+ likelihood <- prod(dpois(x, lambda, log = FALSE)) #likelihood is the product of the individual probabilities 
+ return(likelihood)
+}
+```
+
+### Bisection Method Algorithm
+
+```{r}
+bisec <- function(gprime, a, b, tol = 0.0001){
+  
+  while ((b-a)/2 > tol){ #so whilst the distance between a and b > tol continue the loop
+    c <- (a+b)/2 #calculates midpoint
+    if (abs(gprime(c)) < tol){ #if the gradient eval at midpt < tol
+      return (c)
+    }
+    
+    if (gprime(a) * gprime(c) <= 0){ #if true, their signs differ, root is then between [a,c]
+      b <- c
+      }
+    else {
+      a <- c #interval [c,b]
+    }
+    
+  }
+  return ((a+b)/2) #new midpt = root fn
+   
+}
+```
+
+### 

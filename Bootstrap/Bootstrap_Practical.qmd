@@ -1,0 +1,212 @@
+---
+title: "Bootstrap_Practical"
+format: html
+---
+
+### Bootstrapping
+
+##### You only have one sample, how do you get a confidence interval?
+
+You make use of bootstrapping. Using your own bootstraps to solve your issue.
+
+You only have one sample in BS world, make the assumption that that sample is representative of the population.
+
+Resample from that sample. Treat original sample as the population.
+
+The \* represents the bootstrap. The BS distribution is for the distribution (spread) around something, like original sample estimate.
+
+##### How to sample
+
+With replacement: Probability with picking random values from a population.
+
+Without replacement: just get same sample back.
+
+##### Why use BS?
+
+Std error
+
+Bias
+
+Conf. Interval
+
+BS is the way to understand behaviour of an estimator.
+
+##### Bootstrap Principle
+
+Treat sample (\^) as if its the population, then sample from that (\*)
+
+Assume \* relative to \^ is the same as \^ relative to population. But \^ is cenetred at observed statistics.
+
+***Bootstrap distr to estimate sampling distribution.***
+
+*Look st slides for Bias, SE and CI.*
+
+##### Basic and Percentile BS Intervals
+
+2 different things, specify which one you've used.
+
+look at notes for the formula
+
+use R quantiles() to get the values for the CI.
+
+Another problem in BS: is when we have skew data. How to get around that: Use BS T-dist to then get the CI etc.
+
+```{r}
+#?sample()
+set.seed(1)
+unif <- runif(50, 0, 99)
+u <- sample(unif, size = 10, replace = TRUE)
+u_without <- sample(u, size = 10, replace = FALSE)
+
+B <- 10
+bstr <- matrix(0,ncol = 50,nrow =B)
+for(i in 1:B){
+  samp = sample(u,size = 50,replace =TRUE)
+  bstr[i,]  = samp
+}
+```
+
+#### Question 1
+
+```{r}
+library(MASS)   # Modern Applied Statistics with S 
+                # (Venables and Ripley, 2004)
+
+gal <- galaxies     # data set on velocities (km/s) 
+                    #of 82 galaxies
+
+hist(galaxies, breaks = 25)
+```
+
+```{r}
+## MEDIAN speed of galaxies
+tobs <- median(gal)       # T(X)
+```
+
+```{r}
+set.seed(1)
+
+B <- 10000
+bstr <- matrix(0,ncol = 82,nrow =B)
+for(i in 1:B){
+  samp = sample(gal,size = 82,replace =TRUE)
+  bstr[i,]  = samp
+}
+
+tboot = apply(bstr,1,median)
+```
+
+```{r}
+#mean of medians - median(sample)
+bias <- mean(tboot) - tobs
+bias
+```
+
+```{r}
+SE_tboot <- sd(tboot)
+SE_tboot 
+```
+
+It decreases the estimate of the standard error of your distribution.
+
+```{r}
+#Plot the BS samples, and include tobs 
+hist(tboot, breaks = 25) 
+abline(v= c(tobs, mean(tboot)), col= c("orange", "pink"), lwd = 2)
+```
+
+```{r}
+c1 <- quantile(tboot, probs = (0.05/2))
+c2 <- quantile(tboot, probs = 1-0.05/2)
+#For the medians
+#Percentile CI
+perc_CI <- c(c1, c2) #no need to sort as quantile does this 
+
+#Basic BS CI
+CI_basic <- c(2*tobs - c2, 2*tobs - c1)
+names(CI_basic) <- c("2.5%", "97.5%")
+print(perc_CI)
+print(CI_basic)
+```
+
+```{r}
+tobs_mean <- mean(gal)
+tboot_mean <- apply(bstr, 1, mean)
+
+c1 <- quantile(tboot_mean, probs = (0.05/2))
+c2 <- quantile(tboot_mean, probs = 1-0.05/2)
+
+#For the means: Percentile 
+mperc <- c(c1, c2)
+print(mperc)
+
+#Means: Basic Method 
+mbasic_CI <- c(2*tobs_mean - c2, 2*tobs_mean - c1)
+names(mbasic_CI) <- c("2.5%", "97.5%")
+print(mbasic_CI)
+
+#t_CI
+n <- length(tboot_mean)
+se <- sd(tboot_mean)/sqrt(n)
+
+t_star <- (tboot_mean-tobs_mean)/se
+
+c1 <- quantile(t_star, probs = (0.05/2))
+c2 <- quantile(t_star, probs = 1-0.05/2)
+
+CI_t <- c(tobs_mean - c2*se, tobs_mean - c1*se) 
+names(CI_t) <- c("2.5%", "97.5%")
+CI_t
+```
+
+#### Question 2
+
+Why is it that my values differ? Is there an error in my calculations??
+
+```{r}
+library(boot)
+
+bt.smpls <- boot(gal, function(x, i) median(x[i]), R = 3000) #simulate 3000 BS replicates        
+
+# see Venables and Ripley, pg.134
+# take 3000 bootstrap samples, returns the 3000 medians of these
+
+bt.smpls
+summary(bt.smpls)
+
+boot.ci(bt.smpls, type = c("norm", "basic", "perc", "bca"))     # all sorts of confidence intervals
+help(boot.ci)           # bca gives a bias corrected and accelerated 
+                       # (improved) percentile interval
+```
+
+#### Question 3
+
+```{r}
+# Filter to only the columns we need and remove rows with NAs
+clean_data <- na.omit(airquality[, c("Ozone", "Temp")])
+
+# Now the function is super simple
+corr_func <- function(data, indices) {
+  d <- data[indices, ]
+  return(stats::cor(d$Ozone, d$Temp))
+}
+
+# Run it
+boot_results <- boot(data = clean_data, statistic = corr_func, R = 10000)
+boot.ci(boot_results, type = c("perc", "bca"))
+```
+
+```{r}
+#Find std error, bias and CI for cor
+#Std Error 
+set.seed(1)
+boot(data = airquality, statistic = corr_func, R =10000)
+```
+
+```{r}
+n <- dim(df)[1]
+
+# sample cases from data frame
+cases <- sample(1:n, replace = T)
+booti <- df[cases, ]               
+```

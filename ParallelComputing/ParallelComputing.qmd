@@ -1,0 +1,202 @@
+---
+title: "ParallelComputing"
+format: html
+---
+
+### Parallel Computing
+Splitting a task into smaller pieces, and perform simultaneously, improving task efficiency.
+
+- reduced exectution time
+- large datasets
+- many tasks at one time
+
+makeCluster = make another worker
+
+Task Parallelism : different tasks simultaneously
+Data Parrallism : same task on different subsets
+Parallel Tasks : Indep tasks with no communication: Bootstrapping and Monte Carlo
+
+#### Packages 
+parallel
+foreach 
+doParallel
+
+
+```{r, warning = FALSE}
+install.packages("parallel")
+install.packages("foreach")
+install.packages("doParallel")
+```
+
+```{r, warning = FALSE}
+library(parallel)
+library(foreach)
+library(doParallel)
+```
+
+#### Question 1
+```{r, warnings = FALSE}
+exp_data <- foreach(i = 1:100, .combine = "rbind") %do% {
+  data = rexp(20,1) #generate 100 samples of size 20 from exp(1)
+  means <- mean(data)
+  vars <- var(data)
+  c(mean = means, variance = vars)
+}
+
+head(exp_data)
+```
+
+### Question 2 
+```{r, warnings = FALSE}
+library(MASS)
+
+data(galaxies)
+data <- galaxies
+
+B <- 10000
+cl <- makeCluster(3)
+registerDoParallel(cl)
+
+#Parallel Computing Time
+start <- Sys.time()
+bstr <- foreach(i = 1:B, .combine = 'c') %dopar% {
+  bstr_sample = sample(data, replace = 'TRUE')
+  bstr_med = median(bstr_sample)
+}
+end <- Sys.time()
+par_time <- end-start
+cat("Parallel Comp Time:", par_time)
+#head(bstr)
+
+stopCluster(cl)
+
+```
+
+```{r}
+B <- 10000
+start <- Sys.time()
+bstr <- foreach(i = 1:B) %do% {
+  bstr_sample = sample(data, replace = 'TRUE')
+  bstr_med = median(bstr_sample)
+}
+end <- Sys.time()
+non_partime <- end - start
+cat("Non Parallel Computing time:", non_partime)
+
+```
+
+```{r}
+#Bootstrap with many "workers"
+cl <- makeCluster(10)
+registerDoParallel(cl)
+
+system.time({
+  serial <- numeric(B)
+  foreach(i = 1:B, .combine = 'c') %do%{
+  median(sample(data, replace = TRUE))
+
+```
+
+### Question 3
+
+```{r}
+exp_data <- rexp(50, 1) #population
+true_mean <- mean(exp_data)
+num_sims <- 1000
+B <- 1000
+alpha <- 0.05
+
+count <- 0
+
+for (i in 1:num_sims){
+  samp <- sample(exp_data, 50, replace = TRUE) #bootstrap samples 
+  boot_means <- numeric(B)
+  
+  for (b in 1:B){
+    bs_sample <- sample(samp, 50, replace = TRUE)
+    boot_means[b] <- mean(bs_sample)
+    
+  }
+  
+  ci <- quantile(boot_means, probs = c(alpha/2, 1-alpha/2))
+  
+  if (true_mean >= ci[1] & true_mean <= ci[2]){
+    count = count + 1
+  }
+}
+  
+cov_rate <- (count/num_sims)*100
+cat("Coverage of percentile bootstrap CI:", cov_rate,"%")
+```
+
+### Question 4
+Find largest value in each vector, iterating over the vectors (3 of them, containing 5 each)
+
+```{r}
+vec1 <- c(2,5,6,8,4)
+vec2 <- c(2,7,6,78,4)
+vec3 <- c(2,35,6,87,4)
+vec_list <- list(vec1, vec2, vec3)
+```
+
+```{r}
+#using for each 
+result <- function(vector){
+  foreach(i=vec_list) %do% {
+  max_num <- max(i)
+  #print(max_num)
+  }
+}
+```
+
+```{r, warnings = FALSE}
+#Creating the vectors using the irnorm
+installed.packages("iterators")
+library(iterators)
+
+set.seed(1234)
+results_seq <- foreach(i = irnorm(n= 5, mean =0, sd =1, count =3)) %do% {
+  max(i)
+}
+print(results_seq)
+```
+
+
+### Question 5
+```{r}
+#RunTime foreach 
+start1 <- Sys.time()
+results_seq <- foreach(i = irnorm(n= 5, mean =0, sd =1, count =3)) %do% {
+  max(i)
+}
+end1 <- Sys.time()
+for_time <- end1 - start1
+cat("Runtime using foreach:", for_time)
+
+#RunTime parLapply
+cl <- makeCluster(3)
+registerDoParallel(cl)
+start2 <- Sys.time()
+results_seq <- foreach(i = irnorm(n= 5, mean =0, sd =1, count =3)) %dopar% {
+  max(i)
+}
+end2 <- Sys.time()
+par_time <- end2 - start2
+cat("Runtime using parLapply:", par_time)
+
+#RunTime replicate
+start3 <- Sys.time()
+results_seq <- foreach(i = 1:3) %dopar% {
+  replicate(3, rnorm(5))
+  max(i)
+}
+end3 <- Sys.time()
+rep_time <- end3 - start3
+cat("Runtime using replicate:", rep_time)
+
+cat("Runtime using foreach:", for_time)
+cat("Runtime using parLapply:", par_time)
+cat("Runtime using replicate:", rep_time)
+
+```
+

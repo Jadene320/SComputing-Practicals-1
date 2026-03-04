@@ -53,11 +53,7 @@ data_sim <- rpois(1000, 0.2) #generate 1000 numbers from rpois, simulation funct
 pois_val2 <- dpois(data_sim, 0.2) #returns the probabilities 
 
 #Calculate the Likelihood - by taking product of all pois2_val
-poi_likelihood <- function(lambda, data){
-  likelihood_calc <- prod(data)
-  #prod(dpois(pois_val2, lambda=lambda))
-  
-}
+
 
 print(poi_likelihood(lambda = 2, data = pois_val2)) #Ask is this correct
 ```

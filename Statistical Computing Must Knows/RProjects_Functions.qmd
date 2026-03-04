@@ -1,0 +1,64 @@
+---
+title: "RProjects&Functions"
+format: html
+---
+
+```{r}
+x + y   # Adds corresponding elements of x and y
+x * y   # Multiplies corresponding elements of x and y
+```
+
+```{r}
+x[2]      # Returns the second element
+x[3:5]    # Returns elements from index 3 to 5
+x[-2]     # Returns all elements except the second one
+x[x > 3]  # Returns elements greater than 3
+```
+
+#### Matrices
+
+2 dimensional array, with elements of same type
+
+```{r}
+x <- c(1, 3, 2, 10, 5)
+y <- 1:5
+
+m1 <- cbind(x, y)  # Bind x and y by columns to create a matrix
+m2 <- rbind(x, y)  # Row-binding creates a matrix
+```
+
+```{r}
+ t(m1)       # Transposes the matrix
+m1 + m2     # Adds corresponding elements
+m1 %*% m2   # Matrix multiplication
+solve(m1)   # Computes the inverse of a square matrix (if possible)
+```
+
+Note: solve() returns the inverse of nxn matrix
+
+#### Lists
+
+```{r}
+my_list <- list(num = 1, vec = c(1, 2, 3), mat = matrix(1:6, nrow = 2))
+
+my_list$num  # Retrieves the numeric element
+my_list$vec  # Retrieves the vector
+my_list$mat  # Retrieves the matrix
+```
+
+#### Functions
+
+```{r}
+increment <- function(x) {
+  x + 1  # Adds 1 to the input value and returns it
+}
+
+increment(3)  # Returns 4
+```
+
+#### Logical Operators
+
+```{r}
+# AND = &
+# OR = |
+```

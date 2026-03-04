@@ -1,0 +1,92 @@
+---
+title: "Practice Questions"
+format: html
+editor: visual
+---
+
+#### Question 1:Likelihood
+
+```{r}
+#Libraries 
+library(tidyverse)
+library(nycflights13)
+
+```
+
+```{r}
+data("airquality")
+class(airquality)
+
+airquality <- as_tibble(airquality)
+
+airquality
+```
+
+```{r}
+airquality <- as_tibble(airquality)
+airquality <- airquality |> 
+  mutate(across(everything(), as.numeric))
+airquality <- airquality[complete.cases(airquality), ]
+```
+
+Replace NA values with rows median
+
+```{r}
+input_med <- function(x){
+  med <- median(x, na.rm = T)
+  x[is.na(x)] <- med
+  return(x)
+}
+
+clean <- airquality |> 
+  mutate(across(c(Ozone, Solar.R, Temp),
+               input_med) )
+
+clean
+```
+
+```         
+```
+
+```{r}
+#Calculate Summary Statistics: mean, sd, min, max for temp and ozone
+summary_stat <- clean |> 
+  summarise(
+    across(c(Ozone, Temp),
+           list(
+             Mean = ~mean(., na.rm = T),
+             SD = ~sd(., na.rm = T),
+             Min = ~min(., na.rm = T),
+             Max = ~max(., na.rm = T))ye
+           ))
+
+pivot_longer(everything(),
+             names_to = c("Variable", "Statistics"),
+             names_sep = "_") |> 
+pivot_wider(names_from = Statistic, values_from = value)
+```
+
+#### Question 3
+
+```{r}
+poi_likelihood <- function(lambda, data){
+  if (lambda <= 0) return(0)
+  likelihood <- prod((lambda^x * exp(-lambda))/factorial(x))
+  return(likelihood)}
+  
+
+```
+
+```{r}
+set.seed(2)
+lamTrue <- runif(1, 2, 4)
+xSmall <- rpois(10, lamTrue)
+
+# Example large dataset
+xLarge <- rpois(1000, lamTrue)
+```
+
+```{r}
+poi_small <- poi_likelihood(lambda = c(2,4), data = xSmall)
+poi_large <- poi_likelihood(lambda = c(2,4), data = xLarge)
+```

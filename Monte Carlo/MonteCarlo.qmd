@@ -1,0 +1,148 @@
+---
+title: "Monte Carlo"
+format: html
+editor: visual
+---
+
+#### Question 1
+
+```{r}
+#1.1
+x <- seq(-5, 5, length.out = 1000)
+fx <- exp(-x^2 / 2) * (sin(2 * x))^2
+  
+
+plot(x, fx, type = "l", lwd = 2, col = "pink")
+```
+
+```{r}
+#1.2
+hx <- dnorm(x, 0, 1) #Creating a pdf
+c <- 3
+#Candidate Function
+chx <- c*hx
+
+#Plot chx as an overlay on 
+plot(x, fx, type = "l", lwd = 2, col = "pink")
+lines(x, chx, col = "blue", lwd = 2)
+```
+
+```{r}
+#1.3
+N <- 10000
+x_candi <- rnorm(N, 0, 1) #generated from candidate dist: hx: (normal)
+u <- runif(N) #Generage from uniform
+
+fx_candi <- exp(-x_candi^2 / 2) * (sin(2 * x_candi))^2
+hx_candi <- dnorm(x_candi, 0, 1)
+```
+
+```{r}
+#1.4
+ratio <- fx_candi/ c  * hx_candi #prob of accepting x
+```
+
+```{r}
+#1.5
+accepted_val <- x_candi[u <= ratio]
+```
+
+```{r, warning=F}
+fx <- function(x){
+  exp(-x^2 / 2) * (sin(2 * x))^2
+}
+#1.6
+hist(accepted_val, breaks = 25, probability = TRUE, main = "Histogram of generated values", col = "lightblue")
+
+curve(fx(x), from = min(accepted_val), to = max(accepted_val), col = "purple", lwd = 2, add = T)
+```
+
+```{r}
+accept_rate <- length(accepted_val)/N
+```
+
+```{r}
+#1.9
+#target distr: 
+fx <- function(x){
+  exp(-x^2 / 2) * (sin(2 * x))^2
+}
+
+max_iter <- 1000
+init_x <- 0
+
+#ask tutor, how to implemet MCMC
+```
+
+#### Question 2
+
+```{r}
+#Sim data from exp dist
+data <- rexp(1000, rate = 2)
+#Sim from uniform
+u <- pexp(data, rate = 2) #pexp gives the cdf of the exp
+
+hist(u, prob = T, main = "Histogram with Density Curve", col = "grey")
+curve(dexp(x, rate =2 ), from = 0, to = max(x), add = T, col = "red", lwd = 2)
+
+```
+
+#### Question 3
+
+```{r}
+#target 
+hx <- function(x){
+  exp(-x)/1+x^2
+}
+
+#proposal
+gx <- function(x){
+  dnorm(x)
+}
+
+f <- function(x){
+  as.numeric(x>1)
+}
+
+N <- 10000
+x <- rnorm(N) #sample from gx 
+
+w <- hx(x)/gx(x) #weighting
+
+#estimate integral 
+Int_est <- mean(f(x) *w )
+```
+
+```{r}
+#Question 4
+
+```
+
+```{r}
+#Question 6
+a <- 0.8
+b <- 3
+N <- 10000 #the amount of simulations
+f <- function(x){
+  1/(1+sinh(2*x)*log(x)^2)
+}
+
+x <- runif(N, min = a, max= b)
+
+I_est <- (1/(b-a)) * mean(f(x)) * (b-a)
+print(I_est)
+
+```
+
+```{r}
+#Question 7: Estimate pi = circum/diam
+est_pi <- function(max_iter = 1000){
+  x <- runif(n = max_iter, 0,1)
+  y <- runif(n = max-iter, 0,1)
+  
+  sum_sq <- sqrt(x^2 + y^2)
+  in_circle <- which(sum_sq <= 1)
+  points_in_circle <- length(in_circle)
+}
+
+```
